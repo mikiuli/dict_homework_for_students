@@ -53,7 +53,7 @@ def get_parsed_employees_info() -> list[dict[str, int | str]]:
     и приводит их к стандартизированному виду."""
     employees_info = get_employees_info()
     parsed_employees_info = []
-    template = {
+    dict_template = {
         'id': int,
         'name': str,
         'last_name': str,
@@ -61,11 +61,11 @@ def get_parsed_employees_info() -> list[dict[str, int | str]]:
         'position': str,
         'salary': Decimal
     }
-    temporary_dict = template.copy()
+    temporary_dict = dict_template.copy()
     for employee_info in employees_info:
         for index, item in enumerate(employee_info.split()):
-            if item in template.keys():
-                temporary_dict[item] = template[item](employee_info.split()
-                                                      [index+1])
+            if item in dict_template.keys():
+                temporary_dict[item] = dict_template[item](employee_info
+                                                           .split()[index+1])
         parsed_employees_info.append(temporary_dict.copy())
     return parsed_employees_info
