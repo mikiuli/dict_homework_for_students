@@ -53,31 +53,19 @@ def get_parsed_employees_info() -> list[dict[str, int | str]]:
     и приводит их к стандартизированному виду."""
     employees_info = get_employees_info()
     parsed_employees_info = []
-    template_to_fill: dict[str, None] = {
-        'id': None,
-        'name': None,
-        'last_name': None,
-        'age': None,
-        'position': None,
-        'salary': None
+    template = {
+        'id': int,
+        'name': str,
+        'last_name': str,
+        'age': int,
+        'position': str,
+        'salary': Decimal
     }
+    temporary_dict = template.copy()
     for employee_info in employees_info:
         for index, item in enumerate(employee_info.split()):
-            if item in set(template_to_fill.keys()):
-                if item in {'age', 'id'}:
-                    template_to_fill[item] = int(employee_info.split()
-                                                 [index+1])
-                elif item == 'salary':
-                    template_to_fill[item] = Decimal(employee_info.split()
-                                                     [index+1])
-                else:
-                    template_to_fill[item] = str(employee_info.split()
-                                                 [index+1])
-        parsed_employees_info.append(template_to_fill.copy())
-        # если я не уверена, что в каждой строке из листа
-        # есть полная информация для заполнения шаблона,
-        # я обновляю значения шаблона,
-        # чтобы удалить старые данные
-        for key in template_to_fill.keys():
-            template_to_fill[key] = None
+            if item in template.keys():
+                temporary_dict[item] = template[item](employee_info.split()
+                                                      [index+1])
+        parsed_employees_info.append(temporary_dict.copy())
     return parsed_employees_info
