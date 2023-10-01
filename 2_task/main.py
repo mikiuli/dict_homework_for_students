@@ -25,6 +25,10 @@
 """
 
 
+import re
+from collections import Counter
+
+
 def top_10_most_common_words(text: str) -> dict[str, int]:
     """Функция возвращает топ 10 слов, встречающихся в тексте.
 
@@ -34,16 +38,7 @@ def top_10_most_common_words(text: str) -> dict[str, int]:
     Returns:
         словарь типа {слово: количество вхождений}
     """
-    for letter in text:
-        if letter in '.,-()?!;:"\'':
-            text = text.replace(letter, '')
-    words_dict = {}
-    for word in text.lower().split():
-        if len(word) >= 3:
-            if words_dict.get(word) is None:
-                words_dict[word] = 1
-            else:
-                words_dict[word] += 1
+    words_dict = dict(Counter(re.findall(r'\w{3,}', text.lower())))
     sorted_keys_dict = dict(sorted(words_dict.items()))
     ten_most_common_words = dict(list(sorted(sorted_keys_dict.items(),
                                              key=lambda item: item[1],

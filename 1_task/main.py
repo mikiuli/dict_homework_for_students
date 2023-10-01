@@ -63,9 +63,9 @@ def get_parsed_employees_info() -> list[dict[str, int | str]]:
     }
     temporary_dict = dict_template.copy()
     for employee_info in employees_info:
-        for index, item in enumerate(employee_info.split()):
+        info_list = employee_info.split()
+        for index, item in enumerate(info_list):
             if item in dict_template.keys():
-                temporary_dict[item] = dict_template[item](employee_info
-                                                           .split()[index+1])
+                temporary_dict[item] = dict_template[item](info_list[index+1])
         parsed_employees_info.append(temporary_dict.copy())
     return parsed_employees_info
